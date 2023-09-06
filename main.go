@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/bkr-dev/setup-clean/cmd"
 )
 
 func main() {
-	fmt.Println("hell yeah brother")
 	err := cmd.Execute()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error executing cli-tool: %s", err)
+		os.Exit(1)
 	}
 }

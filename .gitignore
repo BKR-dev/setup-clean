@@ -26,3 +26,6 @@ go.work
 *.log
 *.test
 *.txt
+
+# binary
+setup-clean
