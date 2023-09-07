@@ -1,9 +1,12 @@
 package util
 
 import (
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"os/exec"
+	"path"
 )
 
 // open useful links in borwser
@@ -29,4 +32,21 @@ func OpenSingleLinkInBrowser(url string) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error opening URL: %s", url)
 	}
+}
+
+// setup directory structure
+func MakeDirSkeleton() {
+	// setup dirs
+	// argoCD := ".argocd"
+	// kube := ".kube"
+
+	workDir := "Bonprix"
+	home := os.Getenv("HOME")
+	baseDir := path.Join(home, workDir)
+	// create dir
+	err := os.Mkdir(baseDir, 0755)
+	if errors.Is(err, &fs.PathError{}) {
+		fmt.Fprintf(os.Stderr, "Could not create dir: %s %s", baseDir, err)
+	}
+
 }
