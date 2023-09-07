@@ -2,9 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"os/exec"
 
+	"github.com/bkr-dev/setup-clean/util"
 	"github.com/spf13/cobra"
 )
 
@@ -25,8 +24,5 @@ var (
 
 func docCmd(cmd *cobra.Command, args []string) {
 	fmt.Println("Opening browser")
-	err := exec.Command("open", url).Start()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error opening browser to show documentation %s", err)
-	}
+	util.OpenSingleLinkInBrowser(url)
 }
