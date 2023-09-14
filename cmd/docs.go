@@ -11,7 +11,7 @@ func init() {
 	rootCmd.AddCommand(docs)
 }
 
-var url = "https://www.doculink.com"
+var url = "https://www.wikipedia.com"
 
 var (
 	docs = &cobra.Command{
