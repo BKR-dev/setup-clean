@@ -9,6 +9,16 @@ import (
 	"path"
 )
 
+var (
+	configDirs = []string{
+		".argocd",
+		".kube",
+		".bonprix",
+	}
+	workDir = "Bonprix"
+	home    = os.Getenv("HOME")
+)
+
 // open useful links in borwser
 // HAS to be http(s)://www._.com
 // (bookmarks, oracleclou, jira boards...)
@@ -37,26 +47,40 @@ func OpenSingleLinkInBrowser(url string) {
 // setup directory structure
 func MakeDirSkeleton() {
 	// setup dirs
-	configDirs =[]string{".argocd", ".kube", ".bonprix"}
+	for _, v := range configDirs {
 
-	for _, d := range configDirs {
-		if !dirExists(d) {
-			// make dirs
+		if !dirExists(v) {
+			fmt.Println("creating: ", v)
+			err := os.Mkdir(path.Join(home, v), 0755)
+			if errors.Is(err, &fs.PathError{}) {
+				fmt.Fprintf(os.Stderr, "Could not create dir: %s %s", v, err)
+			}
+
 		}
 	}
 
-	workDir := "Bonprix"
-	home := os.Getenv("HOME")
 	baseDir := path.Join(home, workDir)
-	// create dir
+	fmt.Println("creating: ", workDir)
 	err := os.Mkdir(baseDir, 0755)
 	if errors.Is(err, &fs.PathError{}) {
 		fmt.Fprintf(os.Stderr, "Could not create dir: %s %s", baseDir, err)
 	}
-
 }
 
-func dirExists(name string) bool {
-		
+func dirExists(dirName string) bool {
+	_, err := os.ReadDir(dirName)
+	if err != nil {
+		return true
+	} else {
+		return false
+	}
 }
 
+func CleanUpAllDirs() {
+	for _, v := range configDirs {
+		fmt.Println("removing dir: ", v)
+		os.RemoveAll(path.Join(home, v))
+	}
+	fmt.Println("removing dir: ", workDir)
+	os.RemoveAll(path.Join(home, workDir))
+}
