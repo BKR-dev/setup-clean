@@ -37,8 +37,13 @@ func OpenSingleLinkInBrowser(url string) {
 // setup directory structure
 func MakeDirSkeleton() {
 	// setup dirs
-	// argoCD := ".argocd"
-	// kube := ".kube"
+	configDirs =[]string{".argocd", ".kube", ".bonprix"}
+
+	for _, d := range configDirs {
+		if !dirExists(d) {
+			// make dirs
+		}
+	}
 
 	workDir := "Bonprix"
 	home := os.Getenv("HOME")
@@ -50,3 +55,8 @@ func MakeDirSkeleton() {
 	}
 
 }
+
+func dirExists(name string) bool {
+		
+}
+
